@@ -13,9 +13,11 @@ sed -i '' "s/___MINIKUBE_IP___/$IP/" srcs/metallb-configmap.yml
 eval $(minikube docker-env)
 echo "$CCBLUE_BOLD >>> build nginx container <<< $CCEND"
 docker build -t nginx_image srcs/nginx
+docker build -t wordpress_image srcs/wordpress
 
 
 echo "$CCBLUE_BOLD >>> apply kube pods <<< $CCEND"
 minikube addons enable metallb
-kubectl apply -f srcs/nginx.yml
 kubectl apply -f srcs/metallb-configmap.yml
+kubectl apply -f srcs/nginx.yml
+kubectl apply -f srcs/wordpress.yml
