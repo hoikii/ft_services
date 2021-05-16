@@ -4,6 +4,8 @@ CCBLUE="\033[34m"
 CCBLUE_BOLD="\033[1;34m"
 CCEND="\033[0m"
 
+export MINIKUBE_HOME=~/goinfre
+
 echo "$CCBLUE_BOLD >>> starting minikube <<< $CCEND"
 minikube start --driver=virtualbox
 IP=`minikube ip`
@@ -14,6 +16,7 @@ eval $(minikube docker-env)
 echo "$CCBLUE_BOLD >>> build nginx container <<< $CCEND"
 docker build -t nginx_image srcs/nginx
 docker build -t wordpress_image srcs/wordpress
+docker build -t mysql_image srcs/mysql
 
 
 echo "$CCBLUE_BOLD >>> apply kube pods <<< $CCEND"
@@ -21,3 +24,4 @@ minikube addons enable metallb
 kubectl apply -f srcs/metallb-configmap.yml
 kubectl apply -f srcs/nginx.yml
 kubectl apply -f srcs/wordpress.yml
+kubectl apply -f srcs/mysql.yml
