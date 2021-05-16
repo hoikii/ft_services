@@ -3,6 +3,8 @@ FROM alpine:3.12
 ENV WP_DB_NAME=wordpress
 ENV WP_DB_USERNAME=user
 ENV WP_DB_PASSWORD=password
+ENV WP_DB_HOST=mysql-service
+ENV WP_DB_PORT=3306
 
 COPY ./wordpress-5.7.2.tar.gz /tmp/
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
@@ -22,7 +24,8 @@ WORKDIR /var/www/wordpress
 RUN cp ./wp-config-sample.php ./wp-config.php && \
 	sed -i "s/database_name_here/$WP_DB_NAME/" wp-config.php && \
 	sed -i "s/username_here/$WP_DB_USERNAME/" wp-config.php && \
-	sed -i "s/password_here/$WP_DB_PASSWORD/" wp-config.php
+	sed -i "s/password_here/$WP_DB_PASSWORD/" wp-config.php && \
+	sed -i "s/localhost/$WP_DB_HOST:$WP_DB_PORT/" wp-config.php
 
 #RUN apk add mysql mysql-client && \
 #	mkdir -p /run/mysqld && \
