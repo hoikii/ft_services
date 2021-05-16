@@ -19,9 +19,14 @@ docker build -t wordpress_image srcs/wordpress
 docker build -t mysql_image srcs/mysql
 
 
+echo "$CCBLUE_BOLD >>> enable minikube dashboard <<< $CCEND"
+minikube addons enable dashboard
 echo "$CCBLUE_BOLD >>> apply kube pods <<< $CCEND"
 minikube addons enable metallb
 kubectl apply -f srcs/metallb-configmap.yml
 kubectl apply -f srcs/nginx.yml
 kubectl apply -f srcs/wordpress.yml
 kubectl apply -f srcs/mysql.yml
+
+echo "run '$CCBLUE minikube dashboard$CCEND ' to open dashboard."
+echo "minikube IP =$CCBLUE `minikube ip` $CCEND"
