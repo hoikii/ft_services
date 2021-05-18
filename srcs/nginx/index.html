@@ -4,7 +4,7 @@
 <title>ft_services nginx test page</title>
 <style>
     body {
-        width: 35em;
+        width: 50em;
         margin: 0 auto;
         font-family: Tahoma, Verdana, Arial, sans-serif;
     }
@@ -15,9 +15,19 @@
 <p>If you see this page, the nginx web server is successfully installed and
 working. Further configuration is required.</p>
 
-<h1><a href="https://localhost/phpmyadmin">phpmyadmin</a></h1>
-<h1><a href="https://localhost/wordpress">wordpress</a></h1>
+<h2><a id="wplink" href="#">wordpress</a><h2>
+<script>
+	document.getElementById('wplink').href='http://' + location.host + ':5050';
+</script>
+
+<h2><a id="pmalink" href="#">phpmyadmin</a><h2>
+<script>
+	document.getElementById('pmalink').href='http://' + location.host + ':5000';
+</script>
+<hr>
+<h1>redirection</h1>
+<p><span style="font-size:30px"><a href="/wordpress">IP/wordpress</span></a> will redirect 307 to IP:5050</p>
+<p><span style="font-size:30px"><a href="/phpmyadmin">IP/phpmyadmin</a></span> will reverse proxy to IP:5000</p>
 <h3>http to https redirection test: <a href="http://localhost">http://localhost</a></h1>
-<h3>autoindex test: <a href="http://localhost/wordpress/wp-includes/">wp-includes/</a></h1>
 </body>
 </html>
