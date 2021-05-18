@@ -18,6 +18,16 @@ spec:
         - name: wordpress-deployment
           image: wordpress_image
           imagePullPolicy: Never
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - 'pgrep php-fpm7'
+            initialDelaySeconds: 5
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 1
 
 ---
 
