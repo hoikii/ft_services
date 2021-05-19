@@ -25,5 +25,4 @@ RUN sed -i "s/__MINIKUBE_IP__/$MINIKUBE_IP/" /etc/vsftpd/vsftpd.conf && \
 
 EXPOSE 21 30020
 
-#CMD vsftp /etc/vsftpd/vsftpd.conf
-CMD tail -f
+CMD vsftpd /etc/vsftpd/vsftpd.conf

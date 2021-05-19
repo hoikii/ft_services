@@ -20,7 +20,6 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 21
-            - containerPort: 20020
             - containerPort: 30020
 
 ---
@@ -39,9 +38,6 @@ spec:
     - port: 21
       targetPort: 21
       name: ftps
-    - port: 20020
-      targetPort: 20020
-      name: ftps-data
     - port: 30020
       targetPort: 30020
       name: ftps-pasv
