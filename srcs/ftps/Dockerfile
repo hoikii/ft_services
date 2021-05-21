@@ -18,6 +18,7 @@ RUN apk update && \
 		-out /etc/ssl/certs/vsftpd.crt
 
 COPY ./vsftpd.conf /etc/vsftpd/vsftpd.conf
+COPY ./startup.sh /usr/sbin/
 
 RUN sed -i "s/__MINIKUBE_IP__/$MINIKUBE_IP/" /etc/vsftpd/vsftpd.conf && \
 	sed -i "s/__FTP_PASV_MIN_PORT__/$FTP_PASV_MIN_PORT/" /etc/vsftpd/vsftpd.conf && \
@@ -25,4 +26,4 @@ RUN sed -i "s/__MINIKUBE_IP__/$MINIKUBE_IP/" /etc/vsftpd/vsftpd.conf && \
 
 EXPOSE 21 30020
 
-CMD vsftpd /etc/vsftpd/vsftpd.conf
+CMD startup.sh

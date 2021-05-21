@@ -18,6 +18,12 @@ spec:
         - name: ftps-deployment
           image: ftps_image
           imagePullPolicy: Never
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - 'pgrep vsftpd'
           ports:
             - containerPort: 21
             - containerPort: 30020
