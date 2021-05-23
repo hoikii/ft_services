@@ -21,6 +21,7 @@ docker build -t phpmyadmin_image srcs/phpmyadmin
 docker build -t ftps_image --build-arg MINIKUBE_IP=$MINIKUBE_IP srcs/ftps
 docker build -t influxdb_image srcs/influxdb
 docker build -t telegraf_image srcs/telegraf
+docker build -t grafana_image srcs/grafana
 
 
 echo "$CCBLUE_BOLD >>> enable minikube dashboard <<< $CCEND"
@@ -35,6 +36,7 @@ kubectl apply -f srcs/phpmyadmin.yml
 kubectl apply -f srcs/ftps.yml
 kubectl apply -f srcs/influxdb.yml
 kubectl apply -f srcs/telegraf.yml
+kubectl apply -f srcs/grafana.yml
 
 echo "run '$CCBLUE minikube dashboard$CCEND ' to open dashboard."
 echo "minikube IP =$CCBLUE `minikube ip` $CCEND"
