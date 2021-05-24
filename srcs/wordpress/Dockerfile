@@ -6,6 +6,9 @@ ENV WP_DB_PASSWORD=password
 ENV WP_DB_HOST=mysql-service
 ENV WP_DB_PORT=3306
 
+ENV __INFLUXDB_URL__=http://influxdb-service:8086
+ENV __INFLUXDB_NAME__=telegraf
+
 COPY ./wordpress-5.7.2.tar.gz /tmp/
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
@@ -17,7 +20,8 @@ RUN apk update && \
 	php7-iconv php7-mcrypt php7-gmp php7-zip php7-curl php7-opcache php7-ctype \
 	php7-apcu php7-intl php7-bcmath php7-dom php7-mbstring php7-xmlreader && \
 	mkdir -p /run/nginx && \
-	tar -xvf /tmp/wordpress-5.7.2.tar.gz -C /var/www/
+	tar -xvf /tmp/wordpress-5.7.2.tar.gz -C /var/www/ && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/v3.13/community
 
 WORKDIR /var/www/wordpress
 
@@ -27,15 +31,8 @@ RUN cp ./wp-config-sample.php ./wp-config.php && \
 	sed -i "s/password_here/$WP_DB_PASSWORD/" wp-config.php && \
 	sed -i "s/localhost/$WP_DB_HOST:$WP_DB_PORT/" wp-config.php
 
-#RUN apk add mysql mysql-client && \
-#	mkdir -p /run/mysqld && \
-#	chown mysql:mysql /run/mysqld && \
-#	mysql_install_db --user=mysql --datadir=/var/lib/mysql
-#RUN mysqld_safe & sleep 3 && \
-#	mysql -e "CREATE USER 'user'@'localhost' identified by 'password';" && \
-#	mysql -e "CREATE DATABASE IF NOT EXISTS wordpress;" && \
-#	mysql -e "GRANT ALL on wordpress.* to 'user'@'localhost' identified by 'password';"
+COPY ./telegraf.conf /etc/telegraf/
 
 EXPOSE 5050
 
-CMD php-fpm7 -F & nginx -g "daemon off;"
+CMD telegraf & php-fpm7 -F & nginx -g "daemon off;"

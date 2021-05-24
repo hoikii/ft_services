@@ -11,4 +11,6 @@ mysql -e "GRANT ALL on $WP_DB_NAME.* to '$WP_DB_USERNAME'@'%' identified by '$WP
 
 mysqladmin shutdown
 
+telegraf &
+
 mysqld_safe --user=mysql --datadir=/var/lib/mysql

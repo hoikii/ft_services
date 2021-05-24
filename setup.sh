@@ -5,6 +5,9 @@ CCBLUE_BOLD="\033[1;34m"
 CCEND="\033[0m"
 
 #export MINIKUBE_HOME=~/goinfre
+## To reset minikube ip back to 192.168.99.100, reset virtualbox DHCP leases.
+#minikube delete
+#rm ~/Library/VirtualBox/HostInterfaceNetworking-vboxnet0-Dhcpd.leases
 
 echo "$CCBLUE_BOLD >>> starting minikube <<< $CCEND"
 minikube start --driver=virtualbox
@@ -20,7 +23,7 @@ docker build -t mysql_image srcs/mysql
 docker build -t phpmyadmin_image srcs/phpmyadmin
 docker build -t ftps_image --build-arg MINIKUBE_IP=$MINIKUBE_IP srcs/ftps
 docker build -t influxdb_image srcs/influxdb
-docker build -t telegraf_image srcs/telegraf
+#docker build -t telegraf_image srcs/telegraf
 docker build -t grafana_image srcs/grafana
 
 
@@ -35,7 +38,7 @@ kubectl apply -f srcs/mysql.yml
 kubectl apply -f srcs/phpmyadmin.yml
 kubectl apply -f srcs/ftps.yml
 kubectl apply -f srcs/influxdb.yml
-kubectl apply -f srcs/telegraf.yml
+#kubectl apply -f srcs/telegraf.yml
 kubectl apply -f srcs/grafana.yml
 
 echo "run '$CCBLUE minikube dashboard$CCEND ' to open dashboard."
