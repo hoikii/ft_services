@@ -24,6 +24,10 @@ spec:
                 - /bin/sh
                 - -c
                 - 'pgrep vsftpd'
+            initialDelaySeconds: 5
+            timeoutSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 1
           ports:
             - containerPort: 21
             - containerPort: 30020
