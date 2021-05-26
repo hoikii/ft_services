@@ -14,7 +14,7 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 # several php dependencies are necessary for wordpress to work properly
 RUN apk update && \
-	apk add vim nginx php-fpm php7-mysqli && \
+	apk add vim nginx mysql-client php-fpm php7-mysqli && \
 	apk add php7-json php7-zlib php7-xml php7-xmlwriter php7-simplexml php7-pdo \
 	php7-phar php7-openssl php7-pdo_mysql php7-mysqli php7-session php7-gd \
 	php7-iconv php7-mcrypt php7-gmp php7-zip php7-curl php7-opcache php7-ctype \
@@ -30,6 +30,11 @@ RUN cp ./wp-config-sample.php ./wp-config.php && \
 	sed -i "s/username_here/$WP_DB_USERNAME/" wp-config.php && \
 	sed -i "s/password_here/$WP_DB_PASSWORD/" wp-config.php && \
 	sed -i "s/localhost/$WP_DB_HOST:$WP_DB_PORT/" wp-config.php
+
+COPY ./wp_install.sql /tmp/
+
+# apk add mysql-client
+# mysql -h mysql-service:3306 -u user --password=password --database=wordpress < wordpress_all.sql
 
 COPY ./telegraf.conf /etc/telegraf/
 
