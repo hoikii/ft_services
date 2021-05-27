@@ -13,7 +13,13 @@ echo "$CCBLUE_BOLD >>> starting minikube <<< $CCEND"
 minikube start --driver=virtualbox
 MINIKUBE_IP=`minikube ip`
 echo "minikube IP = $MINIKUBE_IP"
-sed -i '' "s/___MINIKUBE_IP___/$MINIKUBE_IP/" srcs/metallb-configmap.yml
+if [ "`uname`" = "Darwin" ];
+then
+	sed -i '' "s/___MINIKUBE_IP___/$MINIKUBE_IP/" srcs/metallb-configmap.yml
+else
+	sed '' "s/___MINIKUBE_IP___/$MINIKUBE_IP/" srcs/metallb-configmap.yml
+fi
+
 
 eval $(minikube docker-env)
 echo "$CCBLUE_BOLD >>> build nginx container <<< $CCEND"
@@ -23,7 +29,7 @@ docker build -t mysql_image srcs/mysql
 docker build -t phpmyadmin_image srcs/phpmyadmin
 docker build -t ftps_image --build-arg MINIKUBE_IP=$MINIKUBE_IP srcs/ftps
 docker build -t influxdb_image srcs/influxdb
-#docker build -t telegraf_image srcs/telegraf
+docker build -t telegraf_image srcs/telegraf
 docker build -t grafana_image srcs/grafana
 
 
@@ -38,7 +44,7 @@ kubectl apply -f srcs/mysql.yml
 kubectl apply -f srcs/phpmyadmin.yml
 kubectl apply -f srcs/ftps.yml
 kubectl apply -f srcs/influxdb.yml
-#kubectl apply -f srcs/telegraf.yml
+kubectl apply -f srcs/telegraf.yml
 kubectl apply -f srcs/grafana.yml
 
 echo "run '$CCBLUE minikube dashboard$CCEND ' to open dashboard."
