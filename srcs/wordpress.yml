@@ -28,6 +28,16 @@ spec:
             timeoutSeconds: 10
             periodSeconds: 5
             failureThreshold: 1
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - 'mysqladmin ping -h mysql-service'
+            initialDelaySeconds: 5
+            timeoutSeconds: 10
+            periodSeconds: 30
+            failureThreshold: 10
 
 ---
 

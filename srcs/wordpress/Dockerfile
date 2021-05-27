@@ -1,5 +1,8 @@
 FROM alpine:3.12
 
+ARG MINIKUBE_IP
+ENV MINIKUBE_IP=${MINIKUBE_IP:-localhost}
+
 ENV WP_DB_NAME=wordpress
 ENV WP_DB_USERNAME=user
 ENV WP_DB_PASSWORD=password
@@ -11,6 +14,8 @@ ENV __INFLUXDB_NAME__=telegraf
 
 COPY ./wordpress-5.7.2.tar.gz /tmp/
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./wp_dump.sql /tmp/
+COPY ./startup.sh /usr/sbin/
 
 # several php dependencies are necessary for wordpress to work properly
 RUN apk update && \
@@ -29,15 +34,12 @@ RUN cp ./wp-config-sample.php ./wp-config.php && \
 	sed -i "s/database_name_here/$WP_DB_NAME/" wp-config.php && \
 	sed -i "s/username_here/$WP_DB_USERNAME/" wp-config.php && \
 	sed -i "s/password_here/$WP_DB_PASSWORD/" wp-config.php && \
-	sed -i "s/localhost/$WP_DB_HOST:$WP_DB_PORT/" wp-config.php
+	sed -i "s/localhost/$WP_DB_HOST:$WP_DB_PORT/" wp-config.php && \
+	sed -i "s/__WORDPRESS_URL__/$MINIKUBE_IP/" /tmp/wp_dump.sql
 
-COPY ./wp_install.sql /tmp/
-
-# apk add mysql-client
-# mysql -h mysql-service:3306 -u user --password=password --database=wordpress < wordpress_all.sql
 
 COPY ./telegraf.conf /etc/telegraf/
 
 EXPOSE 5050
 
-CMD telegraf & php-fpm7 -F & nginx -g "daemon off;"
+CMD startup.sh
