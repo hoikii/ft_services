@@ -15,19 +15,33 @@
 <p>If you see this page, the nginx web server is successfully installed and
 working. Further configuration is required.</p>
 
-<h2><a id="wplink" href="#">wordpress</a><h2>
+<h2>wordpress : <a id="wplink" href="#">Ip:5050</a><h2>
 <script>
 	document.getElementById('wplink').href='http://' + location.host + ':5050';
+	document.getElementById('wplink').text='http://' + location.host + ':5050';
 </script>
 
-<h2><a id="pmalink" href="#">phpmyadmin</a><h2>
+<h2>phpmyadmin : <a id="pmalink" href="#">IP:5000</a><h2>
 <script>
 	document.getElementById('pmalink').href='http://' + location.host + ':5000';
+	document.getElementById('pmalink').text='http://' + location.host + ':5000';
 </script>
 <hr>
+
 <h1>redirection</h1>
-<p><span style="font-size:30px"><a href="/wordpress">IP/wordpress</span></a> will redirect 307 to IP:5050</p>
-<p><span style="font-size:30px"><a href="/phpmyadmin">IP/phpmyadmin</a></span> will reverse proxy to IP:5000</p>
-<h3>http to https redirection test: <a href="http://localhost">http://localhost</a></h1>
+<p><span style="font-size:26px"><a href="/wordpress">IP/wordpress</a></span>  redirect 307 to IP:5050</p>
+<p><span style="font-size:26px"><a href="/phpmyadmin">IP/phpmyadmin</a></span> reverse proxy to IP:5000</p>
+<hr>
+
+<h2>ftps : <a id="ftpslink" href="#">Ip:21</a><h2>
+<script>
+	document.getElementById('ftpslink').href='ftp://' + location.host + ':21';
+	document.getElementById('ftpslink').text='ftp://' + location.host + ':21';
+</script>
+<h2>grafana : <a id="grafanalink" href="#">Ip:5050</a><h2>
+<script>
+	document.getElementById('grafanalink').href='http://' + location.host + ':3000';
+	document.getElementById('grafanalink').text='http://' + location.host + ':3000';
+</script>
 </body>
 </html>

@@ -20,12 +20,11 @@ else
 	sed '' "s/___MINIKUBE_IP___/$MINIKUBE_IP/" srcs/metallb-configmap.yml
 fi
 
-
 eval $(minikube docker-env)
 echo "$CCBLUE_BOLD >>> build nginx container <<< $CCEND"
 docker build -t nginx_image --build-arg MINIKUBE_IP=$MINIKUBE_IP srcs/nginx
-docker build -t wordpress_image srcs/wordpress
 docker build -t mysql_image srcs/mysql
+docker build -t wordpress_image --build-arg MINIKUBE_IP=$MINIKUBE_IP srcs/wordpress
 docker build -t phpmyadmin_image srcs/phpmyadmin
 docker build -t ftps_image --build-arg MINIKUBE_IP=$MINIKUBE_IP srcs/ftps
 docker build -t influxdb_image srcs/influxdb
@@ -39,8 +38,8 @@ echo "$CCBLUE_BOLD >>> apply kube pods <<< $CCEND"
 minikube addons enable metallb
 kubectl apply -f srcs/metallb-configmap.yml
 kubectl apply -f srcs/nginx.yml
-kubectl apply -f srcs/wordpress.yml
 kubectl apply -f srcs/mysql.yml
+kubectl apply -f srcs/wordpress.yml
 kubectl apply -f srcs/phpmyadmin.yml
 kubectl apply -f srcs/ftps.yml
 kubectl apply -f srcs/influxdb.yml

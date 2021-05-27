@@ -11,7 +11,7 @@ COPY ./telegraf.conf /etc/telegraf/
 
 EXPOSE 8086
 
-CMD telegraf & influxd
+CMD telegraf & influxd run -config /etc/influxdb.conf
 
 #influx -database telegraf
 #SELECT usage_idle FROM cpu WHERE cpu = 'cpu-total'

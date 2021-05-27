@@ -24,7 +24,7 @@ spec:
                 - /bin/sh
                 - -c
                 - 'pgrep php-fpm7'
-            initialDelaySeconds: 5
+            initialDelaySeconds: 60
             timeoutSeconds: 10
             periodSeconds: 5
             failureThreshold: 1
@@ -36,7 +36,7 @@ spec:
                 - 'mysqladmin ping -h mysql-service'
             initialDelaySeconds: 5
             timeoutSeconds: 10
-            periodSeconds: 30
+            periodSeconds: 10
             failureThreshold: 10
 
 ---

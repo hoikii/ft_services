@@ -29,6 +29,8 @@ RUN sed -i "s/__MINIKUBE_IP__/$MINIKUBE_IP/" /etc/vsftpd/vsftpd.conf && \
 	sed -i "s/__FTP_PASV_MIN_PORT__/$FTP_PASV_MIN_PORT/" /etc/vsftpd/vsftpd.conf && \
 	sed -i "s/__FTP_PASV_MAX_PORT__/$FTP_PASV_MAX_PORT/" /etc/vsftpd/vsftpd.conf
 
+WORKDIR /home/user
+
 EXPOSE 21 30020
 
 CMD startup.sh
